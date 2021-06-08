@@ -1,37 +1,26 @@
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
+import Search from "./components/Search";
 import Layout from "./components/Layout";
+import Favorites from "./components/Favorite";
+import Playlist from "./components/Playlist";
+import Charts from "./components/Charts";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    const hideMenu = () => {
-      if (window.innerWidth > 768 && isOpen) {
-        setIsOpen(false);
-        console.log("i resized");
-      }
-    };
-
-    window.addEventListener("resize", hideMenu);
-
-    return () => {
-      window.removeEventListener("resize", hideMenu);
-    };
-  });
   return (
     <>
-      <Layout toggle={toggle}>
-        <Router>
-          <Route path="/" component={Home} />
-        </Router>
-      </Layout>
+      <Router>
+        <Layout>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/Search" exact component={Search} />
+            <Route path="/Favorites" exact component={Favorites} />
+            <Route path="/Playlist" exact component={Playlist} />
+            <Route path="/Charts" exact component={Charts} />
+          </Switch>
+        </Layout>
+      </Router>
     </>
   );
 }

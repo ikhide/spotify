@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import API from "../utilities/apiController";
+import Category from "./category";
+import Song from "../components/song";
 
 export default function Home() {
   const [token, setToken] = useState();
@@ -31,32 +33,44 @@ export default function Home() {
 
   return (
     <div>
-      <span>New Realeases</span>
-      <br />
-      {releases &&
-        releases.albums &&
-        releases.albums.items &&
-        releases.albums.items.map((data) => {
-          return <span>{data.name}</span>;
-        })}
-      <br />
-      <span>FEATURED</span>
-      <br />
-      {featured &&
-        featured.playlists &&
-        featured.playlists.items &&
-        featured.playlists.items.map((data) => {
-          return <span>{data.name}</span>;
-        })}
-      <br />
-      <span>CATEGORIES</span>
-      <br />
-      {categories &&
-        categories.categories &&
-        categories.categories.items &&
-        categories.categories.items.map((data) => {
-          return <span>{data.name}</span>;
-        })}
+      <div className="p-10 w-full">
+        <div className="mb-10">
+          <Category title="Released this week" />
+          <div className="mt-8 flex">
+            {releases &&
+              releases.albums &&
+              releases.albums.items &&
+              releases.albums.items.map((data, i) => {
+                return (
+                  <Song key={i} src={data.images[0].url} title={data.name} />
+                );
+              })}
+          </div>
+        </div>
+        <div className="mb-10">
+          <Category title="Featured Playlist" />
+          <div className="mt-8 flex">
+            {featured &&
+              featured.playlists &&
+              featured.playlists.items &&
+              featured.playlists.items.map((data) => {
+                return <Song src={data.images[0].url} title={data.name} />;
+              })}
+          </div>
+        </div>
+        <div>
+          <Category title="Browse" />
+          <div className="mt-8 flex">
+            {categories &&
+              categories.categories &&
+              categories.categories.items &&
+              categories.categories.items.map((data) => {
+                console.log(data);
+                return <Song src={data.icons[0].url} title={data.name} />;
+              })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
